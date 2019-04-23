@@ -1,104 +1,118 @@
+<?php
+  namespace Elementor;
+
+  class PortfolioWidget extends Widget_Base{
+    public function get_name() {
+      return 'reveal_portfolio';
+    }//end function
+
+    public function get_title() {
+      return __( 'Reveal Portfolio', 'reveal' );
+    }//end functionget_titlepublic function get_title() 
+
+    public function get_icon() {
+      return 'fa fa-server';
+    }//end function get_icon
+
+    public function get_categories() {
+      return [ 'basic' ];
+    }//end function get_categories
+
+    //Register input fields
+    protected function _register_controls(){
+      //Name of the content section
+      $this->start_controls_section(
+        'about',
+        array(
+          'label' => __('About', 'reveal'),
+          'tab'   => Controls_Manager::TAB_CONTENT
+        )
+      );
+
+      //Reapeater
+      $repeater = new Repeater();
+
+      $repeater->add_control(
+        'image', [
+          'label' => __( 'Image', 'reveal' ),
+          'type' => Controls_Manager::MEDIA,
+          'label_block' => true,
+        ]
+      );
+
+      $repeater->add_control(
+        'title', [
+          'label' => __( 'Portfolio Title', 'reveal' ),
+          'type' => Controls_Manager::TEXT,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'list',
+        [
+          'label' => __( 'Service Content', 'reveal' ),
+          'type' => Controls_Manager::REPEATER,
+          'fields' => $repeater->get_controls()
+        ]
+      );
+
+
+
+
+      $this->end_controls_section(); //end of field creation
+
+      //Section for style sheet
+      $this->start_controls_section( //input field label
+        'content_style', //unique id
+        [
+          'label' => __( 'Style', 'reveal' ),
+          'tab' => Controls_Manager::TAB_STYLE,
+        ]
+      );
+      $this->end_controls_section();
+
+
+
+    }//end function _register_controls
+
+
+    //show in front end
+    protected function _content_template() {
+      ?>
 
     <section id="portfolio" class="wow fadeInUp">
-      <div class="container">
-        <div class="section-header">
-          <h2>Our Portfolio</h2>
-          <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit export irure minim illum fore</p>
-        </div>
-      </div>
-
       <div class="container-fluid">
         <div class="row no-gutters">
 
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/1.jpg" class="portfolio-popup">
-                <img src="img/portfolio/1.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 1</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
+          <# if ( settings.list.length ) { #>
+              <# _.each( settings.list, function( item ) { #>
 
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/2.jpg" class="portfolio-popup">
-                <img src="img/portfolio/2.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 2</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
+            <div class="col-lg-3 col-md-4">
+              <div class="portfolio-item wow fadeInUp">
 
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/3.jpg" class="portfolio-popup">
-                <img src="img/portfolio/3.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 3</h2></div>
-                </div>
-              </a>
+                <a href="{{ item.image.url }}" class="portfolio-popup">
+                  <img src="{{ item.image.url }}" alt="">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-info">
+                      <h2 class="wow fadeInUp">{{{ item.title }}}</h2>
+                    </div>
+                  </div>
+                </a>
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/4.jpg" class="portfolio-popup">
-                <img src="img/portfolio/4.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 4</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/5.jpg" class="portfolio-popup">
-                <img src="img/portfolio/5.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 5</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/6.jpg" class="portfolio-popup">
-                <img src="img/portfolio/6.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 6</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/7.jpg" class="portfolio-popup">
-                <img src="img/portfolio/7.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 7</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="portfolio-item wow fadeInUp">
-              <a href="img/portfolio/8.jpg" class="portfolio-popup">
-                <img src="img/portfolio/8.jpg" alt="">
-                <div class="portfolio-overlay">
-                  <div class="portfolio-info"><h2 class="wow fadeInUp">Portfolio Item 8</h2></div>
-                </div>
-              </a>
-            </div>
-          </div>
+              <# }); #>
+            <# } #>
 
         </div>
-
       </div>
     </section><!-- #portfolio -->
+  
+      <?php
+    }
+
+    
+  }
+
+  Plugin::instance()->widgets_manager->register_widget_type(new PortfolioWidget);

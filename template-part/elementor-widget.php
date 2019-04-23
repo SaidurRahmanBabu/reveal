@@ -16,3 +16,15 @@
 
 	//Client section
 	require_once('rev-portfolio.php');
+
+	//Client section
+	require_once('rev-testimonial.php');
+
+	// //Client section
+	// require_once('rev-cta.php');
+
+	// //Client section
+	// require_once('rev-team.php');
+
+	// //Client section
+	// require_once('rev-contact.php');
