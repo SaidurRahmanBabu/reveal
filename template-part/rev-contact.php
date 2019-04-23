@@ -1,45 +1,168 @@
+<?php
+  namespace Elementor;
+
+  class ContactWidget extends Widget_Base{
+    public function get_name() {
+      return 'reveal_contact';
+    }//end function
+
+    public function get_title() {
+      return __( 'Reveal Contact', 'reveal' );
+    }//end functionget_titlepublic function get_title() 
+
+    public function get_icon() {
+      return 'fa fa-server';
+    }//end function get_icon
+
+    public function get_categories() {
+      return [ 'basic' ];
+    }//end function get_categories
+
+    //Register input fields
+    protected function _register_controls(){
+      //Name of the content section
+      $this->start_controls_section(
+        'contact',
+        array(
+          'label' => __('Contact', 'reveal'),
+          'tab'   => Controls_Manager::TAB_CONTENT
+        )
+      );
+
+      $this->add_control(
+        'icon', [
+          'label' => __( 'Icon', 'reveal' ),
+          'type' => Controls_Manager::ICON,
+          'label_block' => true,
+        ]
+      );
+
+      $this->add_control(
+        'title', [
+          'label' => __( 'Title', 'reveal' ),
+          'type' => Controls_Manager::Text,
+          'label_block' => true,
+        ]
+      );
+
+      $this->add_control(
+        'address', [
+          'label' => __( 'Address', 'reveal' ),
+          'type' => Controls_Manager::TEXT,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'designation', [
+          'label' => __( 'Designation', 'reveal' ),
+          'type' => Controls_Manager::TEXT,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'phone', [
+          'label' => __( 'Contact Number', 'reveal' ),
+          'type' => Controls_Manager::NUMBER,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'mail', [
+          'label' => __( 'Contact Email', 'reveal' ),
+          'type' => Controls_Manager::TEXT,
+          'show_label' => true,
+        ]
+      );
+
+      $this->end_controls_section(); //end of field creation
+
+
+      $this->start_controls_section(
+        'map',
+        array(
+          'label' => __('Map', 'reveal'),
+          'tab'   => Controls_Manager::TAB_CONTENT
+        )
+      );
+
+      $this->add_control(
+        'place', [
+          'label' => __( 'Location', 'reveal' ),
+          'type' => Controls_Manager::TEXT,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'width', [
+          'label' => __( 'Map Width (px)', 'reveal' ),
+          'type' => Controls_Manager::NUMBER,
+          'show_label' => true,
+        ]
+      );
+
+      $this->add_control(
+        'height', [
+          'label' => __( 'Map Height (px)', 'reveal' ),
+          'type' => Controls_Manager::NUMBER,
+          'show_label' => true,
+        ]
+      );
+      $this->end_controls_section();
+
+
+      //Section for style sheet
+      $this->start_controls_section( //input field label
+        'content_style', //unique id
+        [
+          'label' => __( 'Style', 'reveal' ),
+          'tab' => Controls_Manager::TAB_STYLE,
+        ]
+      );
+      $this->end_controls_section();
+
+
+
+    }//end function _register_controls
+
+
+    //show in front end
+    protected function _content_template() {
+      ?>
 
     <section id="contact" class="wow fadeInUp">
       <div class="container">
-        <div class="section-header">
-          <h2>Contact Us</h2>
-          <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum velit export irure minim illum fore</p>
-        </div>
 
         <div class="row contact-info">
 
-          <div class="col-md-4">
-            <div class="contact-address">
-              <i class="ion-ios-location-outline"></i>
-              <h3>Address</h3>
-              <address>A108 Adam Street, NY 535022, USA</address>
-            </div>
-          </div>
+          <div class="contact-address">
+            <i class="{{{ settings.icon }}}"></i>
+            <h3>{{{ settings.title }}}</h3>
 
-          <div class="col-md-4">
-            <div class="contact-phone">
-              <i class="ion-ios-telephone-outline"></i>
-              <h3>Phone Number</h3>
-              <p><a href="tel:+155895548855">+1 5589 55488 55</a></p>
-            </div>
-          </div>
+            <# if ( settings.address ) { #>
+              <address>{{{ settings.address }}}</address>
+            <# } #>
 
-          <div class="col-md-4">
-            <div class="contact-email">
-              <i class="ion-ios-email-outline"></i>
-              <h3>Email</h3>
-              <p><a href="mailto:info@example.com">info@example.com</a></p>
-            </div>
+            <# if ( settings.phone ) { #>
+              <p><a href="tel:{{{ settings.phone }}}">{{{ settings.phone }}}</a></p>
+            <# } #>
+
+            <# if ( settings.mail ) { #>
+              <p><a href="mailto:{{{ settings.mail }}}">{{{ settings.mail }}}</a></p>
+            <# } #>
           </div>
 
         </div>
       </div>
 
       <div class="container mb-4">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22864.11283411948!2d-73.96468908098944!3d40.630720240038435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbg!4v1540447494452" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+        <iframe width="{{{ settings.width }}}px" height="{{{ settings.height }}}px" src="https://maps.google.com/maps?width=700&amp;height=440&amp;hl=en&amp;q={{{ settings.place }}}+(Map)&amp;ie=UTF8&amp;t=&amp;z=9&amp;iwloc=B&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
       </div>
 
-      <div class="container">
+      <!-- <div class="container">
         <div class="form">
           <div id="sendmessage">Your message has been sent. Thank you!</div>
           <div id="errormessage"></div>
@@ -66,5 +189,13 @@
           </form>
         </div>
 
-      </div>
+      </div> -->
     </section><!-- #contact -->
+  
+      <?php
+    }
+
+    
+  }
+
+  Plugin::instance()->widgets_manager->register_widget_type(new ContactWidget);
