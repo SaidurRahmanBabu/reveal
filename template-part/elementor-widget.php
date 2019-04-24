@@ -28,3 +28,6 @@
 
 	//Client section
 	require_once('rev-contact.php');
+
+	//Client section
+	require_once('rev-map.php');
